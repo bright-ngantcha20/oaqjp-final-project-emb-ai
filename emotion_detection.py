@@ -2,6 +2,9 @@ import requests
 import json
 
 def emotion_detector(text_to_analyze):
+    """
+    Analyze emotion from text using Watson NLP.
+    """
 
     url = (
         "https://sn-watson-emotion.labs.skills.network/"
@@ -25,9 +28,7 @@ def emotion_detector(text_to_analyze):
         headers=headers
     )
 
-    formatted_response = json.loads(
-        response.text
-    )
+    formatted_response = json.loads(response.text)
 
     emotions = (
         formatted_response["emotionPredictions"][0]
@@ -51,5 +52,6 @@ def emotion_detector(text_to_analyze):
         "fear": fear,
         "joy": joy,
         "sadness": sadness,
-        "dominant_emotion": dominant_emotion
+        "dominant_emotion":
+            dominant_emotion
     }
