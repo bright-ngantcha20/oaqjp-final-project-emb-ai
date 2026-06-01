@@ -1,3 +1,7 @@
+"""
+Emotion Detection Flask Application.
+"""
+
 from flask import Flask, render_template, request
 from EmotionDetection import emotion_detector
 
@@ -7,7 +11,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     """
-    Render home page.
+    Render the home page.
     """
     return render_template("index.html")
 
@@ -15,14 +19,17 @@ def home():
 @app.route("/emotionDetector")
 def sent_analyzer():
     """
-    Analyze emotions from text.
+    Analyze the emotion of the submitted text.
     """
 
     text_to_analyze = request.args.get("textToAnalyze")
 
     response = emotion_detector(text_to_analyze)
 
-    result = (
+    if response["dominant_emotion"] is None:
+        return "Invalid text! Please try again!"
+
+    return (
         f"For the given statement, the system response is "
         f"'anger': {response['anger']}, "
         f"'disgust': {response['disgust']}, "
@@ -32,8 +39,6 @@ def sent_analyzer():
         f"The dominant emotion is "
         f"{response['dominant_emotion']}."
     )
-
-    return result
 
 
 if __name__ == "__main__":
